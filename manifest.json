@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "X Quick Block",
+  "version": "1.0.0",
+  "description": "在 X 推文和评论用户名旁添加一键屏蔽按钮，使用网站原生屏蔽流程。",
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
