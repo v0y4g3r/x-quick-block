@@ -1,36 +1,41 @@
 # X Quick Block
 
-Chrome Manifest V3 扩展，在 x.com / twitter.com 推文和评论的作者名旁添加 `Block` 按钮，支持滚动加载和页面内导航。
+A Chrome Manifest V3 extension that adds a `Block` button next to author names in posts and replies on x.com and twitter.com. Supports dynamically loaded posts and in-page navigation.
 
-## 安装
+## Installation
 
-1. Chrome 打开 `chrome://extensions/`。
-2. 右上角开启「开发者模式」。
-3. 点击「加载已解压的扩展程序」，选择本目录：
-   `/Users/lei/Projects/x-quick-block`
-4. 刷新已经打开的 X 页面，登录后即可使用。
+1. Download and extract this repository, or clone it:
+   ```sh
+   git clone https://github.com/v0y4g3r/x-quick-block.git
+   ```
+2. Open `chrome://extensions/` in Chrome.
+3. Enable **Developer mode** in the top-right corner.
+4. Click **Load unpacked** and select the `x-quick-block` folder containing `manifest.json`.
+5. Refresh any open X tabs and sign in to use the extension.
 
-**无需 npm install、无需构建，也不用填写 API Key。** 发布包 `x-quick-block.zip` 解压后同样可以加载；Chrome 开发者模式不能直接加载 ZIP。
+**No dependency installation, build step, or API key is required.** If you have an extension ZIP, extract it first; Chrome's **Load unpacked** option cannot load ZIP files directly.
 
-## 使用
+## Usage
 
-点击目标作者旁的 `Block`，插件会打开该推文的更多菜单，核对 `@用户名`，点击原生屏蔽选项并自动确认。**一次点击会执行真实屏蔽，不再额外询问。** 如需撤销，请在 X 的屏蔽账户设置中操作。
+Click `Block` next to an author. The extension opens that post's native menu, verifies the `@handle`, selects the native block action, and automatically confirms it. **One click performs a real block without asking for additional confirmation.** To undo a block, use X's blocked accounts settings.
 
-操作进行中其他按钮暂时禁用，避免同时打开多个菜单。当前页面中已提交屏蔽的同一作者按钮显示「已提交」。扩展不自行隐藏推文，是否移除由 X 决定。
+Other Block buttons are temporarily disabled while an operation is in progress to avoid overlapping menus. After submission, buttons for the same account on the current page display `已提交` (Submitted). The extension does not hide posts itself; X controls whether they disappear.
 
-## 安全与限制
+The Block button is in English; status messages and notifications are currently in Chinese.
 
-- 仅在 X 和 Twitter HTTPS 页面运行，不申请存储、Cookie 或其他浏览权限。
-- 无后台服务、不读取登录令牌、不调用私有 API、不上传任何数据。
-- 只处理用户主动点击的作者；不会批量自动屏蔽。
-- 开始前若已有菜单/对话框打开，会提示先关闭。
-- 菜单和确认框必须包含与目标相同的 `@用户名`，不匹配则停止，不会点击其他操作或自动解除屏蔽。
-- 「已提交」仅表示已点击网站原生确认且确认框消失，**不是服务端成功校验**。请以 X 的反馈和屏蔽列表为准；网络失败时可刷新后重试。
-- 自己的推文、广告、已屏蔽账户等如果没有原生屏蔽选项，自动操作会超时并提示手动处理。
-- X 改版、实验性界面、菜单不含用户名或确认界面变化时可能无法使用；失败时不会猜测按钮。超时后可能留下原生菜单/对话框，请手动关闭或处理。
-- 已包含模拟 DOM 的自动化测试，未在真实登录的 X 账户上验证。首次使用建议选择一个你确实希望屏蔽的账户，确认效果。
+## Safety and Limitations
 
-## 开发测试
+- Runs only on X and Twitter HTTPS pages. Does not request storage, cookie, or additional browser permissions.
+- No background service, login-token access, private API calls, or data uploads.
+- Acts only on the author you explicitly click; does not perform automatic bulk blocking.
+- Asks you to close any existing menu or dialog before starting.
+- Both the menu and confirmation dialog must contain the target account's `@handle`. If they do not match, the extension stops rather than selecting another action or unblocking anyone.
+- Submitted means the native confirmation button was clicked and the dialog disappeared; **it is not server-side verification of success**. Check X's feedback and blocked accounts list. If a network error occurs, refresh the page before retrying.
+- Your own posts, ads, or already-blocked accounts may not offer a native block action. In that case, the operation times out and prompts you to handle it manually.
+- X redesigns, experimental interfaces, menus without handles, or changes to confirmation dialogs may break automation. The extension does not guess which button to click. A timeout may leave a native menu or dialog open; close or handle it manually.
+- Automated tests use a simulated DOM. The extension has not been verified against a real, signed-in X account. For your first attempt, choose an account you genuinely want to block and check the result.
+
+## Development and Testing
 
 ```sh
 npm ci
@@ -38,4 +43,4 @@ npm test
 node --check content.js
 ```
 
-修改后在 `chrome://extensions/` 点击此扩展的刷新按钮，再刷新 X 页面。
+After making changes, reload the extension at `chrome://extensions/`, then refresh your X tab.
